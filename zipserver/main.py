@@ -8,6 +8,7 @@ import py7zr
 class Settings(BaseSettings):
     app_name: str = "Awesome API"
     zip_file: str = "README.7z"
+    path_prefix: str|None = None
     model_config = SettingsConfigDict(env_file=".env")
 
 
@@ -29,8 +30,11 @@ def get_file_data(path):
 
 @app.get("/{pdbname}/{idname}/{pdbname2}")
 async def get_symbol(pdbname, idname, pdbname2):
+    path = f"{pdbname}/{idname}/{pdbname2}"
+    if settings.path_prefix:
+        path = f"{settings.path_prefix}/{path}"
     try:
-        data = await anyio.to_thread.run_sync(get_file_data, f"{pdbname}/{idname}/{pdbname2}")
+        data = await anyio.to_thread.run_sync(get_file_data, path)
         return Response(data, media_type="application/octet-stream")
     except IndexError:
         return Response(status_code=404)
