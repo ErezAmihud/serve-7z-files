@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "zipserver"
+version = "0.1.0"
+description = "This is a simple python fastapi server to serve data from a 7z files"
+authors = ["Erez Amihud <erezamihud@gmaill.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["standard"], version = "^0.115.6"}
+py7zr = "^0.22.0"
+uvicorn = {extras = ["standard"], version = "^0.34.0"}
+pydantic-settings = "^2.7.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
